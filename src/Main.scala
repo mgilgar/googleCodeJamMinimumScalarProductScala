@@ -26,18 +26,18 @@ object Main extends App {
 	val result = vector.foldLeft(0) { (total, n) => total + n._1*n._2}	
 	
 	// Print the result
-	println("result = " + result)
+	println("Initial scalar product = " + result)
 	
 	
 	// READABLE
 	val vector3 = input1.split(" ").map(_.toInt)
 	val vector4 = input2.split(" ").map(_.toInt)
 	val vector5 = vector3.zip(vector4)
-	println("result = " + vector.foldLeft(0) { (total, n) => total + n._1*n._2})
+	println("Initial scalar product = " + vector.foldLeft(0) { (total, n) => total + n._1*n._2})
 	
 
 	// SINGLE LINE
-	println("result = " 
+	println("Initial scalar product = " 
 	    + input1.split(" ").map(_.toInt)
 	    .zip(input2.split(" ").map(_.toInt))
 	    .foldLeft(0) { (total, n) => total + n._1*n._2})
@@ -47,6 +47,8 @@ object Main extends App {
 	// NOW THE PERMUTATIONS
 	println
 	println("Permutations")
+	println("============")
+	
 	var permutationAndScalarProduct = new ArrayBuffer[(Array[Int], Array[Int], Int)]
 	for (permutation <- vector1.permutations) {
 	  permutationAndScalarProduct += ((permutation, vector2, scalarProduct(permutation, vector2)))
@@ -54,6 +56,9 @@ object Main extends App {
 	permutationAndScalarProduct.map(printPermutation)
 	
 	println("Minimum permutation: ")
+	println("=====================")
+	
+	println("One way: ")
 	printPermutation(permutationAndScalarProduct.minBy(_._3))
 
 	println("Another way: ")
