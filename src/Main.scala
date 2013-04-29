@@ -40,4 +40,26 @@ object Main extends App {
 	    .zip(input2.split(" ").map(_.toInt))
 	    .foldLeft(0) { (total, n) => total + n._1*n._2})
 
+
+	    
+	// NOW THE PERMUTATIONS
+	println
+	println("Available permutations of the first vector")
+	for (permutation <- vector1.permutations) {
+	  println("Permutation ")
+	  print("vector 1: ")
+	  permutation.map({p => print(p + " ")})
+	  println
+	  print("vector 2: ")
+	  vector2.map({p => print(p + " ")})
+	  println
+	  println("Scalar Product = " + scalarProduct(permutation, vector2))
+	  println
+	}
+	    
+	def scalarProduct(vector1 : Array[Int], vector2: Array[Int] ) : Int = {
+	  vector1
+	    .zip(vector2)
+	    .foldLeft(0) { (total, n) => total + n._1*n._2}
+	}
 }
