@@ -1,5 +1,7 @@
+import scala.collection.mutable.ArrayBuffer
+
 object Main extends App {
-	// Help
+    // Help
 	println("This app calculates the minimum scalar product of two vectors")
 	println("Please enter the size of the vectors")
   	
@@ -44,22 +46,41 @@ object Main extends App {
 	    
 	// NOW THE PERMUTATIONS
 	println
-	println("Available permutations of the first vector")
+	println("Permutations")
+	var permutationAndScalarProduct = new ArrayBuffer[(Array[Int], Array[Int], Int)]
 	for (permutation <- vector1.permutations) {
-	  println("Permutation ")
-	  print("vector 1: ")
-	  permutation.map({p => print(p + " ")})
-	  println
-	  print("vector 2: ")
-	  vector2.map({p => print(p + " ")})
-	  println
-	  println("Scalar Product = " + scalarProduct(permutation, vector2))
-	  println
-	}
-	    
+	  permutationAndScalarProduct += ((permutation, vector2, scalarProduct(permutation, vector2)))
+	}	    
+	permutationAndScalarProduct.map(printPermutation)
+	
+	println("Minimum permutation: ")
+	printPermutation(permutationAndScalarProduct.minBy(_._3))
+
+	println("Another way: ")
+	printPermutation(
+		vector1.permutations
+		.map({ (p) => (p, vector2, scalarProduct(p, vector2))})
+		.foldLeft(new ArrayBuffer[(Array[Int], Array[Int], Int)]) 
+				 { (permutationAndScalarProduct2, p) => permutationAndScalarProduct2 += p  }.minBy(_._3))
+				 
+		
+
+	
 	def scalarProduct(vector1 : Array[Int], vector2: Array[Int] ) : Int = {
 	  vector1
 	    .zip(vector2)
 	    .foldLeft(0) { (total, n) => total + n._1*n._2}
+	}
+	
+	def printPermutation(permutation : (Array[Int], Array[Int], Int)) = {
+		  println("Permutation ")
+		  print("vector 1: ")
+		  permutation._1.map({p => print(p + " ")})
+		  println
+		  print("vector 2: ")
+		  permutation._2.map({p => print(p + " ")})
+		  println	  
+		  println("Scalar Product = " + permutation._3)
+		  println
 	}
 }
